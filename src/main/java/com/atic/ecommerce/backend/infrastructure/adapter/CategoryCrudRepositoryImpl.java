@@ -22,16 +22,21 @@ public class CategoryCrudRepositoryImpl implements ICategoryRepository {
 
     @Override
     public Iterable<Category> findAll() {
-        return null;
+        return categoryMapper.toCategoryList(iCategoryCrudRepository.findAll());
     }
 
     @Override
     public Category findById(Integer id) {
-        return null;
+        return categoryMapper.toCategory(iCategoryCrudRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Categoria con id " + id + " no existe")
+        ));
     }
 
     @Override
     public void deleteById(Integer id) {
-
+        iCategoryCrudRepository.findById(id).orElseThrow(
+                ()->new RuntimeException("Categoria con id " + id + " no existe")
+        );
+        iCategoryCrudRepository.deleteById(id);
     }
 }
